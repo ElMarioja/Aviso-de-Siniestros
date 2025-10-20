@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <title>Aviso de Siniestro</title>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-2xl">
+    <div class="flex justify-center w-full items-center pb-10 ">
+        <img src="/addvalora.jpg" alt="logo addvalora " class="py-2 md:w-1/2 flex justify-center">
+    </div>
+    
+    <h1 class="text-3xl font-bold text-center mb-6" style="color:#1863dc;">Aviso de Siniestro</h1>
+
+    <form id="siniestroForm" class="space-y-4">
+      <div>
+        <label class="block text-sm font-semibold mb-1" style="color:#1863dc;">1. Aseguradora</label>
+        <input type="text" name="aseguradora" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#1863dc]" required>
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1" style="color:#1863dc;">2. Asegurado</label>
+        <input type="text" name="asegurado" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#1863dc]" required>
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1" style="color:#1863dc;">3. Dirección de siniestro</label>
+        <input type="text" name="direccion" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#1863dc]" required>
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1" style="color:#1863dc;">4. Persona a contactar</label>
+        <input type="text" name="contacto" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#1863dc]" required>
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1" style="color:#1863dc;">5. Número telefónico</label>
+        <input type="tel" name="telefono" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#1863dc]" required>
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1" style="color:#1863dc;">6. Descripción del siniestro</label>
+        <textarea name="descripcion" rows="4" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#1863dc]" required></textarea>
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1" style="color:#1863dc;">7. Número de póliza</label>
+        <input type="text" name="poliza" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#1863dc]">
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1" style="color:#1863dc;">8. Número de boleta</label>
+        <input type="text" name="boleta" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#1863dc]">
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1" style="color:#1863dc;">9. Fecha de asignación</label>
+        <input type="date" name="fecha_asignacion" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#1863dc]">
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1" style="color:#1863dc;">10. Fecha del siniestro</label>
+        <input type="date" name="fecha_siniestro" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#1863dc]">
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1" style="color:#1863dc;">11. Persona que asigna</label>
+        <input type="text" name="asigna" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#1863dc]">
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1" style="color:#1863dc;">12. Observaciones</label>
+        <textarea name="observaciones" rows="3" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#1863dc]"></textarea>
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1" style="color:#1863dc;">13. Información extra</label>
+        <textarea name="extra" rows="3" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#1863dc]"></textarea>
+      </div>
+
+      <button type="button" id="generarPDF" class="w-full text-white py-2 rounded-lg font-semibold transition" style="background-color:#ef9100;">
+        Generar PDF
+      </button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('generarPDF').addEventListener('click', () => {
+      const form = document.getElementById('siniestroForm');
+      const datos = new FormData(form);
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      doc.setFontSize(16);
+      doc.setTextColor(24, 99, 220);
+      doc.text("Aviso de Siniestro", 20, 20);
+      doc.setFontSize(10);
+      doc.setTextColor(0, 0, 0);
+
+      let y = 35;
+      const etiquetas = {
+        aseguradora: "Aseguradora",
+        asegurado: "Asegurado",
+        direccion: "Dirección de siniestro",
+        contacto: "Persona a contactar",
+        telefono: "Número telefónico",
+        descripcion: "Descripción del siniestro",
+        poliza: "Número de póliza",
+        boleta: "Número de boleta",
+        fecha_asignacion: "Fecha de asignación",
+        fecha_siniestro: "Fecha del siniestro",
+        asigna: "Persona que asigna",
+        observaciones: "Observaciones",
+        extra: "Información extra"
+      };
+
+      datos.forEach((valor, campo) => {
+        const subtitulo = etiquetas[campo] || campo;
+        doc.setFont("helvetica", "bold");
+        doc.text(subtitulo + ":", 20, y);
+        y += 5;
+        doc.setFont("helvetica", "normal");
+        const texto = doc.splitTextToSize(valor, 170);
+        doc.text(texto, 25, y);
+        y += texto.length * 5 + 3;
+      });
+
+      // Fuerza una sola página (sin addPage)
+      doc.save("aviso_de_siniestro.pdf");
+    });
+  </script>
+</body>
+</html>
+
